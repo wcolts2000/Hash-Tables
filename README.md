@@ -1,6 +1,6 @@
 # Hash Tables in Python
 
-Hash tables are arguably the single most important data structures in existence. Used to implement everything from objects in JavaScript and dictionaries in Python to Memcached over a distributed computer network, hash tables are beloved by programmers for providing key/value storage with constant big-O time complexity for insertion, deletion, and access.
+Hash tables are arguably the single most important data structure in existence. Used to implement everything from objects in JavaScript and dictionaries in Python to Memcached over a distributed computer network, hash tables are beloved by programmers for providing key/value storage with constant big-O time complexity for insertion, deletion, and access.
 
 ## What is a hash table?
 
@@ -22,7 +22,7 @@ Hash functions map data of an arbitrary size to data of a fixed size. For exampl
 
 `"Hello world!"` -> `6`
 
-`"Very long keys can hash be hashed as well"` -> `10`
+`"Very long keys can be hashed as well"` -> `10`
 
 In this way, keys of any length can be mapped to an integer value which can be used as an array index for a hash table. Note that since there are an infinite amount of possible keys that must map to only 16 possible indices, values with different keys will inevitably collide.
 
