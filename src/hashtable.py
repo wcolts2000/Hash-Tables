@@ -7,9 +7,12 @@ class LinkedPair:
         self.value = value
         self.next = None
 
+    # def __repr__(self):
+    #     return f"{self.key} : {self.value}"
+
 class HashTable:
     '''
-    A hash table that with `capacity` buckets
+    A hash table with `capacity` buckets
     that accepts string keys
     '''
     def __init__(self, capacity):
@@ -51,7 +54,14 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+
+        if self.storage[index] is None:
+            self.storage[index] = value
+            # print("STORAGE: ", self.storage)
+            return True
+        else:
+            print("ERROR: index collision, look into a linked list chaining solution here")
 
 
 
@@ -63,7 +73,12 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+        if self.storage[index] is None:
+            print("Warning: key not found")
+        else:
+            self.storage[index] = None
+            return True
 
 
     def retrieve(self, key):
@@ -74,7 +89,9 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+        print(f"INDEX: {index} ")
+        return self.storage[index]
 
 
     def resize(self):
