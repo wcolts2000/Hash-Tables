@@ -7,13 +7,14 @@ class TestHashTable(unittest.TestCase):
 
     def test_hash_table_insertion_and_retrieval(self):
         ht = HashTable(8)
-
+        print("ONE")
         ht.insert("key-0", "val-0")
         ht.insert("key-1", "val-1")
         ht.insert("key-2", "val-2")
         ht.insert("key-3", "val-3")
         ht.insert("key-4", "val-4")
         ht.insert("key-5", "val-5")
+        print("TWO")
         ht.insert("key-6", "val-6")
         ht.insert("key-7", "val-7")
         ht.insert("key-8", "val-8")
