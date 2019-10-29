@@ -9,6 +9,8 @@ class LinkedPair:
 
     def __repr__(self):
         return "{'" + self.key +"': '" + self.value + "'} "
+        # rep_string = "\{ {self.key}: {self.value} \}"
+        # print(rep_string.format())
 
 class HashTable:
     '''
@@ -93,13 +95,19 @@ class HashTable:
         current = self.storage[index]
         prevNode = None
         # # if there is a value at the node
-        while current != None:
+        while current:
             # check if the keys match
             if current.key == key:
                 # if there is a previous node
                 if prevNode:
-                    # set it's next (current) to None, possible bug if there is a next node
-                    prevNode.next = None
+                    # check if there is a current.next
+                    if current.next:
+                        prevNode.next = current.next
+                    # set it's next (current) to None
+                        current = None
+                    else:
+                    # set it's next (current) to None
+                        current = None
                 else:
                     self.storage[index] = None
                 current = None
