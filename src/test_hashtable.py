@@ -7,7 +7,7 @@ class TestHashTable(unittest.TestCase):
 
     def test_hash_table_insertion_and_retrieval(self):
         ht = HashTable(8)
-        print("ONE")
+
         ht.insert("key-0", "val-0")
         ht.insert("key-1", "val-1")
         ht.insert("key-2", "val-2")
@@ -18,11 +18,8 @@ class TestHashTable(unittest.TestCase):
         ht.insert("key-7", "val-7")
         ht.insert("key-8", "val-8")
         ht.insert("key-9", "val-9")
-        print(f"STORAGE: {ht.storage}")
 
         return_value = ht.retrieve("key-0")
-        print(f"RETURN VALUE: {return_value}")
-        print("TWO")
         self.assertTrue(return_value == "val-0")
         return_value = ht.retrieve("key-1")
         self.assertTrue(return_value == "val-1")
