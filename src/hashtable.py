@@ -8,7 +8,7 @@ class LinkedPair:
         self.next = None
 
     def __repr__(self):
-        return "{'" + self.key +"': '" + self.value + "'}"
+        return "{'" + self.key +"': '" + self.value + "'} "
 
 class HashTable:
     '''
@@ -55,11 +55,8 @@ class HashTable:
         Fill this in.
         '''
         index = self._hash_mod(key)
-        # if load rating is .7 * self.capacity:
-        # run    self.resize()  ???
-
         # check if there is a linked list already going
-        if self.storage[index]:
+        if self.storage[index] is not None:
             # if so
             current = self.storage[index]
             while current:
@@ -120,16 +117,14 @@ class HashTable:
         '''
         index = self._hash_mod(key)
         # print(f"INDEX: {index} ")
-        if self.storage[index] is None:
+        current = self.storage[index]
+        while current:
+            if current.key == key:
+                return current.value
+            else:
+                current = current.next
             return None
-        elif self.storage[index].key != key and self.storage[index].next:
-            current = self.storage[index].next
-            while current:
-                if current.key == key:
-                    return current.value
-                else:
-                    current = current.next
-            return None
+        return None
 
 
     def resize(self):
@@ -148,7 +143,7 @@ class HashTable:
                 pass
             else:
                 # print(f"resizing pair: {pair}")
-                if not node.next:
+                if node.next is None:
                     # index = self._hash_mod(node.key)
                     # new_storage[index] = node
                     self.insert(node.key, node.value)
