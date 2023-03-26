@@ -8,7 +8,9 @@ class LinkedPair:
         self.next = None
 
     def __repr__(self):
-        return f"{self.key}: {self.value}"
+        return "{'" + self.key +"': '" + self.value + "'} "
+        # rep_string = "\{ {self.key}: {self.value} \}"
+        # print(rep_string.format())
 
 class HashTable:
     '''
@@ -55,16 +57,26 @@ class HashTable:
         Fill this in.
         '''
         index = self._hash_mod(key)
-
-        if self.storage[index] is None:
-            # self.storage[index] = (key, value)
-            self.storage[index] = LinkedPair(key, value)
-            # print("STORAGE: ", self.storage)
+        # check if there is a linked list already going
+        if self.storage[index] is not None:
+            # if so set pointers to track if key is present already
+            current = self.storage[index]
+            exists = False
+            while current and not exists:
+                # if key exists already, overwrite it
+                if current.key == key:
+                    current.value = value
+                    exists = True
+                # else if we are at the end of the list, create the new Node
+                elif current.next == None:
+                    current.next = LinkedPair(key, value)
+                    exists = True
+                # else traverse the list
+                else:
+                    current = current.next
+        # if not a list already, start a List Node
         else:
-            print("ERROR: index collision, look into a linked list chaining solution here")
-
-
-
+            self.storage[index] = LinkedPair(key, value)
 
     def remove(self, key):
         '''
@@ -74,12 +86,35 @@ class HashTable:
 
         Fill this in.
         '''
+        # if there is nothing in the index return a warning
         index = self._hash_mod(key)
-        if self.storage[index] is None:
-            print("Warning: key not found")
+        if self.storage[index] == None:
+            print("No value for that key!")
+            return
+        # create a few pointers to traverse the linked lists
+        current = self.storage[index]
+        prevNode = None
+        # # if there is a value at the node
+        while current:
+            # check if the keys match
+            if current.key == key:
+                # if there is a previous node
+                if prevNode:
+                    # check if there is a current.next
+                    if current.next:
+                        prevNode.next = current.next
+                    # set it's next (current) to None
+                        current = None
+                    else:
+                    # set it's next (current) to None
+                        current = None
+                else:
+                    self.storage[index] = None
+                current = None
 
-        else:
-            self.storage[index] = None
+            else:
+                prevNode = current
+                current = current.next
 
 
     def retrieve(self, key):
@@ -91,11 +126,24 @@ class HashTable:
         Fill this in.
         '''
         index = self._hash_mod(key)
-        # print(f"INDEX: {index} ")
-        if self.storage[index] is None:
+        node = self.storage[index]
+        # check if node exists
+        if node:
+            current = self.storage[index]
+            # if it does
+            while current != None:
+                # check if there is a key matching existing key
+                if current.key == key:
+                    # if so, overwrite value
+                    return current.value
+                else:
+                    # if not keep traversing linked list
+                    current = current.next
+            # if reach end of list, value wasn't found
             return None
+        # if no node, value doesn't exist
         else:
-            return self.storage[index].value
+            return None
 
 
     def resize(self):
@@ -105,34 +153,41 @@ class HashTable:
 
         Fill this in.
         '''
-        new_storage = [None] * (self.capacity * 2)
-        for pair in self.storage:
-            print(f"PAIR: {pair}")
-            if pair is None:
-                pass
-            else:
-                # print(f"resizing pair: {pair}")
-                index = self._hash_mod(pair.key)
-                new_storage[index] = pair
+        # Double capacity
+        self.capacity *= 2
+        # create new list with size `capacity`
+        new_storage = [None] * self.capacity
+        # copy old storage
+        old_storage = self.storage
+        # set new list to storage
         self.storage = new_storage
-        self.capacity = len(new_storage)
-        return True
-
+        # iterate through old storage list
+        for node in old_storage:
+            if node is not None:
+                # track current position
+                current = node
+                # iterate through linked list
+                while current != None:
+                    # insert new node of current value
+                    self.insert(current.key, current.value)
+                    # move to next node
+                    current = current.next
 
 
 if __name__ == "__main__":
     ht = HashTable(2)
+    print(ht.storage)
 
     ht.insert("line_1", "Tiny hash table")
     ht.insert("line_2", "Filled beyond capacity")
-    # ht.insert("line_3", "Linked list saves the day!")
+    ht.insert("line_3", "Linked list saves the day!")
 
     print("")
 
     # Test storing beyond capacity
     print(ht.retrieve("line_1"))
     print(ht.retrieve("line_2"))
-    # print(ht.retrieve("line_3"))
+    print(ht.retrieve("line_3"))
 
     # Test resizing
     old_capacity = len(ht.storage)
@@ -144,6 +199,7 @@ if __name__ == "__main__":
     # Test if data intact after resizing
     print(ht.retrieve("line_1"))
     print(ht.retrieve("line_2"))
-    # print(ht.retrieve("line_3"))
+    print(ht.retrieve("line_3"))
+    print(ht.storage)
 
     print("")
